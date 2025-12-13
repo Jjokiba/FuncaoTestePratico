@@ -126,6 +126,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ClienteModel.cs" />
+    <Compile Include="Models\CustomAttributes\ValidarCPFAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +183,7 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\FI.Util.js" />
     <Content Include="Scripts\Clientes\FI.AltClientes.js" />
     <Content Include="Scripts\Clientes\FI.Clientes.js" />
     <Content Include="Scripts\Clientes\FI.ListClientes.js" />

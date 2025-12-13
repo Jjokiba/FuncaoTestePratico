@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebAtividadeEntrevista.Models
 {
@@ -66,6 +62,15 @@ namespace WebAtividadeEntrevista.Models
         /// Telefone
         /// </summary>
         public string Telefone { get; set; }
+
+
+        /// <summary>
+        /// CPF
+        /// </summary>
+        [Required]
+        [MaxLength(14)] 
+        [ValidarCPF]
+        public string CPF { get; set; }
 
     }    
 }

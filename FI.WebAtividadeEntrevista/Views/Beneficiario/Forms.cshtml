@@ -1,0 +1,62 @@
+﻿@{
+    var isFormCreate = Model.IdCliente == 0;
+}
+
+@model WebAtividadeEntrevista.Models.BeneficiarioModel
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title fs-5" id="exampleModalLabel">Beneficiários</h3>
+                <button type="button" class="close" data-dismiss="modal" style="position: relative; top: -25px;" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="formBenef">
+                    <div class="row" style="display:flex">
+                        @Html.HiddenFor(model => model.IdCliente)
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CPF">CPF:</label>
+                                <input required="required" type="text" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 999.999.999-99" mask="999.999.999-99" maxlength="14">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="Nome">Nome:</label>
+                                <input required="required" type="text" class="form-control" id="Nome" name="Nome" placeholder="Ex.: João" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="align-content: center; top: 5px;">
+                            <button id="SalvaBenef" type="submit" class="btn btn-sm btn-primary">Incluir</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <table id="gridBeneficiarios" class="table"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var urlAlteracaoBeneficiario = '@Url.Action("Alterar", "Beneficiario", new { area = "" })';
+    var urlConsultaBeneficiario= '@Url.Action("Consultar", "Beneficiario", new { area = "" })';
+    var urlBeneficiarioList = '@Url.Action("BeneficiarioList", "Beneficiario", new { area = "" })';
+    var urlPostBeneficiario = '@Url.Action("Incluir", "Beneficiario", new { area = "" })';
+    var urlExcluirBeneficiario = '@Url.Action("Excluir", "Beneficiario", new { area = "" })';
+</script>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryui")
+@Scripts.Render("~/bundles/jtable")
+@if (isFormCreate)
+{
+    @Scripts.Render("~/Scripts/Beneficiarios/FI.BeneficiariosCreate.js")
+}
+else
+{
+    @Scripts.Render("~/Scripts/Beneficiarios/FI.BeneficiariosEdit.js")
+}
+

@@ -42,13 +42,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\BoBeneficiario.cs" />
     <Compile Include="BLL\BoCliente.cs" />
+    <Compile Include="DAL\Beneficiarios\DaoBeneficiario.cs" />
     <Compile Include="DAL\Clientes\DaoCliente.cs" />
     <Compile Include="DAL\Padrao\FI.AcessoDados.cs" />
+    <Compile Include="DML\Beneficiario.cs" />
     <Compile Include="DML\Cliente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_AltBenef.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_DelBenef.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_IncBenef.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_PesqBenef.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_ConsBenef.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_VerificaBenef.sql" />
     <Content Include="DAL\Clientes\Procedures\FI_SP_AltCliente.sql" />
     <Content Include="DAL\Clientes\Procedures\FI_SP_VerificaCliente.sql" />
     <Content Include="DAL\Clientes\Procedures\FI_SP_ConsCliente.sql" />
@@ -56,5 +65,6 @@
     <Content Include="DAL\Clientes\Procedures\FI_SP_IncCliente.sql" />
     <Content Include="DAL\Clientes\Procedures\FI_SP_PesqCliente.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,6 +10,17 @@ $(document).ready(function () {
         var nome = $form.find("#Nome").val();
         var cpf = $form.find("#CPF").val();
         var idCliente = $form.find("#IdCliente").val();
+        var cpfExists = beneficiariosArray.some(function (b) {
+            if (editMode) {
+                return b.CPF === cpf && b.Id !== editId;
+            } else {
+                return b.CPF === cpf;
+            }
+        });
+        if (cpfExists) {
+            ModalDialog("Erro!", "Já existe um beneficiário com este CPF.");
+            return;
+        }
         if (editMode) {
             // Edit mode: Alterar
             var idx = beneficiariosArray.findIndex(function (b) { return b.Id === editId; });

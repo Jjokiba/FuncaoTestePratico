@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -23,10 +24,20 @@ namespace WebAtividadeEntrevista.Controllers
         }
 
         [HttpPost]
+        public JsonResult Excluir(long id)
+        {
+            BoCliente bo = new BoCliente();
+
+            bo.Excluir(id);
+
+            return Json("Cadastro Excluido com sucesso");
+        }
+
+        [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -43,9 +54,45 @@ namespace WebAtividadeEntrevista.Controllers
                     Response.StatusCode = 400;
                     return Json("CPF informado já possui cadastro ativo!");
                 }
-                
+
+                var beneficiarioErrors = new List<string>();
+                if (model?.Beneficiarios?.Any() ?? false)
+                {
+                    foreach (var beneficiario in model.Beneficiarios)
+                    {
+                        var benefModel = new Models.BeneficiarioModel
+                        {
+                            IdCliente = 0,
+                            Nome = beneficiario.Nome,
+                            CPF = beneficiario.CPF
+                        };
+                        var ctx = new ValidationContext(benefModel, null, null);
+                        var results = new List<ValidationResult>();
+                        bool isValid = Validator.TryValidateObject(benefModel, ctx, results, true);
+                        if (!isValid)
+                        {
+                            beneficiarioErrors.AddRange(results.Select(r => r.ErrorMessage));
+                        }
+                        else
+                        {
+                            // Check existence using BLL (simulate BeneficiarioController logic)
+                            BoBeneficiario boBenef = new BoBeneficiario();
+                            if (boBenef.VerificarExistencia(benefModel.CPF))
+                            {
+                                beneficiarioErrors.Add($"CPF {benefModel.CPF} informado já possui cadastro ativo!");
+                            }
+                        }
+                    }
+                }
+
+                if (beneficiarioErrors.Any())
+                {
+                    Response.StatusCode = 400;
+                    return Json(string.Join("\n", beneficiarioErrors));
+                }
+
                 model.Id = bo.Incluir(new Cliente()
-                {                    
+                {
                     CEP = model.CEP,
                     Cidade = model.Cidade,
                     Email = model.Email,
@@ -57,6 +104,19 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     CPF = model.CPF
                 });
+                if (model?.Beneficiarios?.Any() ?? false)
+                {
+                    BoBeneficiario boBeneficiario = new BoBeneficiario();
+                    foreach (var beneficiario in model.Beneficiarios)
+                    {
+                        boBeneficiario.Incluir(new Beneficiario()
+                        {
+                            IdCliente = model.Id,
+                            Nome = beneficiario.Nome,
+                            CPF = beneficiario.CPF
+                        });
+                    }
+                }
 
                 Response.StatusCode = 200;
                 return Json("Cadastro efetuado com sucesso");

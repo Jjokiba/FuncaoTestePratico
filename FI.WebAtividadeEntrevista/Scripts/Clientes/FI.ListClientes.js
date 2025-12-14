@@ -24,7 +24,15 @@ $(document).ready(function () {
                     title: '',
                     display: function (data) {
                         return '<button onclick="window.location.href=\'' + urlAlteracao + '/' + data.record.Id + '\'" class="btn btn-primary btn-sm">Alterar</button>';
-                    }
+                    },
+                    width: '7.5%'
+                },
+                Excluir: {
+                    title: '',
+                    display: function (data) {
+                        return '<button onclick="ExcluirItem(' + data.record.Id + ')" class="btn btn-danger btn-sm">Excluir</button>';
+                    },
+                    width: '7.5%'
                 }
             }
         });
@@ -33,3 +41,22 @@ $(document).ready(function () {
     if (document.getElementById("gridClientes"))
         $('#gridClientes').jtable('load');
 })
+
+function ExcluirItem(id) {
+    $.ajax({
+        url: `${urlExclusao}/${id}`,
+        method: "POST",
+        error:
+            function (r) {
+                if (r.status == 400)
+                    ModalDialog("Ocorreu um erro", r.responseJSON);
+                else if (r.status == 500)
+                    ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+            },
+        success:
+            function (r) {
+                ModalDialog("Item excluido com Sucesso!", r)
+                $('#gridClientes').jtable('load')
+            }
+    });
+}

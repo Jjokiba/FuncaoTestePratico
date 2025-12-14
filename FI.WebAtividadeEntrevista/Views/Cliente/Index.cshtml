@@ -3,11 +3,11 @@
     ViewBag.Title = "Clientes";
 }
 @section scripts{
-<script>
+    <script>
     var urlAlteracao = '@Url.Action("Alterar", "Cliente", new { area = "" })';
     var urlClienteList = '@Url.Action("ClienteList", "Cliente", new { area = "" })';
-
-</script>
+    var urlExclusao = '@Url.Action("Excluir", "Cliente", new { area = "" })';
+    </script>
     @Scripts.Render("~/bundles/listClientes")
 }
 <h2>@Html.Raw(ViewBag.Title)</h2>
